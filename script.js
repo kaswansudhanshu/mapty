@@ -6,8 +6,6 @@ class Workout {
   clicks = 0;
 
   constructor(coords, dist, duration) {
-    // this.date = ...
-    // this.id = ...
     this.coords = coords; //[lat,lng]
     this.dist = dist; // in Km
     this.duration = duration; // in min
@@ -69,13 +67,18 @@ const edit = document.querySelector('.edit_btn');
 const deleteAll = document.querySelector('.deleteAll_btn');
 const sortbtn = document.querySelector('.sort_btn');
 
+const confirmDeleteOne = document.querySelector('.confirm_one');
+const confirmDeleteAll = document.querySelector('.confirm_all');
+const overlay = document.querySelector('.overlay');
+const confirmYesOne = document.querySelector('.confirm_yes_one');
+const confirmYesAll = document.querySelector('.confirm_yes_all');
+const confirmNo = document.querySelectorAll('.confirm_no');
+
 class App {
   #map;
   #mapEvent;
   #mapZoomLevel = 13;
   #workouts = [];
-  // events which are in edit mode
-  // [id1, id2]
   #editEvents;
 
   constructor() {
@@ -85,12 +88,20 @@ class App {
     //Get data from local storage
     this._getLocalStorage();
 
+    //confirmations
+
     //Add EventListeners
     form.addEventListener('submit', this._newWorkout.bind(this));
 
     inputType.addEventListener('change', this._toggelElevationEvent);
 
     containerWorkouts.addEventListener('click', this._moveToPopup.bind(this));
+
+    deleteAll.addEventListener('click', this._deleteWorkoutAll.bind(this));
+
+    document.addEventListener('keydown', this._hideConfirmOverlay.bind(this));
+
+    this._confirmations();
   }
 
   _getPosition() {
@@ -313,6 +324,7 @@ class App {
 
     const editbtn = document.querySelector('.edit_workout');
     const deletebtn = document.querySelector('.delete_workout');
+    const editForm = document.querySelector('.edit_form');
 
     edit.addEventListener('click', function () {
       edit.classList.toggle('active');
@@ -321,12 +333,7 @@ class App {
       deleteAll.classList.toggle('hidden');
     });
 
-    // form.addEventListener('submit', function () {
-    //   // edit.classList.remove('active');
-    //   // editbtn.classList.add('hide_btn');
-    //   // deletebtn.classList.add('hide_btn');
-    //   // deleteAll.classList.add('hidden');
-    // });
+    editForm.addEventListener('submit', this._submitEditForm.bind(this));
 
     editbtn.addEventListener('click', this._editWorkout.bind(this));
 
@@ -360,6 +367,13 @@ class App {
     this.#workouts = data;
 
     this.#workouts.forEach(work => {
+      if (work.type === 'running')
+        work.prototype = Object.create(Running.prototype);
+      if (work.type === 'cycling')
+        work.prototype = Object.create(Cycling.prototype);
+    });
+
+    this.#workouts.forEach(work => {
       this._renderWorkout(work);
     });
   }
@@ -374,12 +388,11 @@ class App {
     const editEl = e.target.closest('.workout');
 
     const editor = this.#workouts.find(work => work.id === editEl.dataset.id);
-    console.log(editor.id);
     this.#editEvents = editor.id;
 
-    editEl.classList.add('hide_El');
+    // editEl.classList.add('hide_El');
     this._hideActionButtons(this.#editEvents);
-    this._showEditForm(this.#editEvents)
+    this._showEditForm(this.#editEvents);
   }
 
   _hideActionButtons(id) {
@@ -400,15 +413,55 @@ class App {
     });
   }
 
+  _submitEditForm(e) {
+    e.preventDefault();
+    this._newWorkout(e);
+  }
+
   _deleteWorkout(e) {
     const delEl = e.target.closest('.workout');
 
     const editor = this.#workouts.find(work => work.id === delEl.dataset.id);
-
-    confirm('Do you wanna delete this Workout?') ? this.#workouts : ``;
+    this._showConfirmOverlay();
+    confirmDeleteOne.classList.remove('hide_confirm');
+    const newWorkouts = this.#workouts.filter(el => el.id !== editor.id);
+    this.#workouts = newWorkouts;
+    this.#workouts.forEach(el => this._renderWorkout(el));
   }
 
-  _deleteWorkoutAll() {}
+  _deleteWorkoutAll(e) {
+    // const delEl = e.target.closest('.workout');
+
+    // const editor = this.#workouts.find(work => work.id === delEl.dataset.id);
+    this._showConfirmOverlay();
+    confirmDeleteAll.classList.remove('hide_confirm');
+  }
+
+  _showConfirmOverlay() {
+    document.querySelector('.confirm_section').classList.remove('hide_confirm');
+    overlay.classList.remove('overlay_hidden');
+  }
+
+  _hideConfirmOverlay(e) {
+    if (e.key === 'Escape') {
+      this._hideOverlay();
+    }
+    if (e.type === 'keydown') return;
+    this._hideOverlay();
+  }
+
+  _hideOverlay() {
+    confirmDeleteOne.classList.add('hide_confirm');
+    confirmDeleteAll.classList.add('hide_confirm');
+    document.querySelector('.confirm_section').classList.add('hide_confirm');
+    overlay.classList.add('overlay_hidden');
+  }
+
+  _confirmations() {
+    confirmNo.forEach(el => {
+      el.addEventListener('click', this._hideConfirmOverlay.bind(this));
+    });
+  }
 }
 
 const app = new App();

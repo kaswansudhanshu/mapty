@@ -120,9 +120,50 @@
             <span class="workout__unit">spm</span>
           </div>
 
-          <button class="form__btn delete_workout hide_del" type="button">
-            Delete <i class="fas fa-trash"></i>
-          </button>
+          <form class="edit_form hidden" data-id="${workout.id}">
+            <div class="form__row">
+              <label class="form__label">Type</label>
+              <select class="form__input form__input--type">
+                <option value="running">Running</option>
+                <option value="cycling">Cycling</option>
+              </select>
+            </div>
+            <div class="form__row">
+              <label class="form__label">Distance</label>
+              <input class="form__input form__input--distance" placeholder="km" />
+            </div>
+            <div class="form__row">
+              <label class="form__label">Duration</label>
+              <input
+                class="form__input form__input--duration"
+                placeholder="min"
+              />
+            </div>
+            <div class="form__row">
+              <label class="form__label">Cadence</label>
+              <input
+                class="form__input form__input--cadence"
+                placeholder="step/min"
+              />
+            </div>
+            <div class="form__row form__row--hidden">
+              <label class="form__label">Elev Gain</label>
+              <input
+                class="form__input form__input--elevation"
+                placeholder="meters"
+              />
+            </div>
+            <button class="form__btn submit_btn hidden" type="submit">
+              Submit
+            </button>
+          </form>
+      <button class="form__btn edit_workout  hide_btn" data-id="${workout.id}" type="button">
+        Edit <i class="fas fa-pencil-alt"></i>
+      </button>
+      <button class="form__btn delete_workout hide_btn" data-id="${workout.id}" type="button">
+      Delete <i class="fas fa-trash"></i>
+      </button>
+      </li>
         </li>
 
         <li class="workout workout--cycling" data-id="1234567891">
@@ -147,8 +188,79 @@
             <span class="workout__value">223</span>
             <span class="workout__unit">m</span>
           </div>
+          <form class="edit_form hidden" data-id="${workout.id}">
+            <div class="form__row">
+              <label class="form__label">Type</label>
+              <select class="form__input form__input--type">
+                <option value="running">Running</option>
+                <option value="cycling">Cycling</option>
+              </select>
+            </div>
+            <div class="form__row">
+              <label class="form__label">Distance</label>
+              <input
+                class="form__input form__input--distance"
+                placeholder="km"
+              />
+            </div>
+            <div class="form__row">
+              <label class="form__label">Duration</label>
+              <input
+                class="form__input form__input--duration"
+                placeholder="min"
+              />
+            </div>
+            <div class="form__row">
+              <label class="form__label">Cadence</label>
+              <input
+                class="form__input form__input--cadence"
+                placeholder="step/min"
+              />
+            </div>
+            <div class="form__row form__row--hidden">
+              <label class="form__label">Elev Gain</label>
+              <input
+                class="form__input form__input--elevation"
+                placeholder="meters"
+              />
+            </div>
+            <button class="form__btn submit_btn hidden" type="submit">
+              Submit
+            </button>
+          </form>
+          <button
+            class="form__btn edit_workout hide_btn"
+            data-id="${workout.id}"
+            type="button"
+          >
+            Edit <i class="fas fa-pencil-alt"></i>
+          </button>
+          <button
+            class="form__btn delete_workout hide_btn"
+            data-id="${workout.id}"
+            type="button"
+          >
+            Delete <i class="fas fa-trash"></i>
+          </button>
         </li> -->
       </ul>
+      <div class="confirm_section hide_confirm">
+        <div class="confirm_one hide_confirm">
+          <p>Do You Want to delete this Workout?</p>
+          <div class="confirm_btn">
+            <button class="btn confirm_yes_one">Yes</button>
+            <button class="btn confirm_no">No</button>
+          </div>
+        </div>
+        <div class="confirm_all hide_confirm">
+          <p>Do You Want to delete all Workouts?</p>
+          <div class="confirm_btn">
+            <button class="btn confirm_yes_all">Yes</button>
+            <button class="btn confirm_no">No</button>
+          </div>
+        </div>
+      </div>
+      <div class="overlay overlay_hidden"></div>
 
       <p class="copyright">
         &copy; Copyright by

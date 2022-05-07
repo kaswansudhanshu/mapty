@@ -147,9 +147,9 @@ a:visited {
   display: none;
 }
 
-li .hide_El {
+/* li .hide_El {
   display: none;
-}
+} */
 
 /* form */
 .form {
@@ -178,7 +178,7 @@ li .hide_El {
   gap: 0.5rem 2.5rem;
   grid-column: span 4;
   /* Match height and activity boxes */
-  height: 10.5rem;
+  height: 7.5rem;
   transition: all 0.5s, transform 1ms;
 }
 
@@ -251,6 +251,71 @@ li .hide_El {
 .twitter-link:hover,
 .twitter-link:active {
   color: var(--color-light--2);
+}
+
+/* Confirmation */
+.confirm_section {
+  position: absolute;
+  width: 350px;
+  padding: 5rem;
+  box-sizing: border-box;
+  font-size: 1.5rem;
+  top: 50%;
+  left: 50%;
+  justify-content: center;
+  background-color: #2d3439;
+  border-radius: 5px;
+  /* align-content: center; */
+  transform: translate(-50%, -50%);
+  /* border: #00c46a solid 1px; */
+  z-index: 1002;
+}
+
+.confirm_section .confirm_one,
+.confirm_section .confirm_all {
+  padding-top: 0.5rem;
+  top: 0;
+  position: fixed;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.confirm_section .confirm_btn {
+  display: grid;
+  grid-area: 1fr 1fr;
+  /* width: 100%; */
+  /* justify-self: center; */
+}
+
+.confirm_section .confirm_btn .btn {
+  /* display: inline-block; */
+  justify-self: center;
+  width: 50%;
+  margin: 0.5rem;
+  padding: 0.25rem;
+  background-color: #00c46a;
+  border: none;
+  border-radius: 3px;
+}
+
+.confirm_section .confirm_btn .btn:hover {
+  opacity: 0.7;
+}
+
+.hide_confirm,
+.overlay_hidden {
+  display: none;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(3px);
+  z-index: 1001;
 }
 
 /* MAP */
